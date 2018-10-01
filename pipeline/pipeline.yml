@@ -1,0 +1,46 @@
+---
+jobs:
+- name: build
+  public: true
+  plan:
+  - get: source
+    trigger: true
+    params:
+      depth: 1
+  - put: version
+    params:
+      bump: minor
+  - task: build
+    file: source/pipeline/build.yml
+
+- name: cut-release
+  public: false
+  plan:
+  - get: source
+    params:
+      depth: 1
+    passed: [build]
+  - get: version
+    passed: [build]
+  - put: source
+    params:
+      repository: source
+      tag: version/version
+
+resources:
+- name: source
+  type: git
+  source:
+    branch: master
+    private_key: {{boclips-spring-security-repo-key}}
+    uri: git@github.com:knowledgemotion/boclips-spring-security.git
+
+- name: version
+  type: semver
+  source:
+    initial_version: "0.0.0"
+    driver: git
+    uri: git@github.com:knowledgemotion/versions.git
+    branch: master
+    file: boclips-spring-security
+    private_key: {{versions-repo-key}}
