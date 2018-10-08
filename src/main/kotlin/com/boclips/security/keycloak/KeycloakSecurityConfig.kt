@@ -33,6 +33,7 @@ class KeycloakSecurityConfig(val httpSecurityConfigurer: HttpSecurityConfigurer)
 
     override fun configure(http: HttpSecurity) {
         super.configure(http)
+        http.csrf().disable()
         httpSecurityConfigurer.configure(http)
     }
 }
