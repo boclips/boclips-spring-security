@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile('org.keycloak:keycloak-spring-security-adapter:4.4.0.Final')
+    compile('org.keycloak:keycloak-spring-security-adapter:4.5.0.Final')
 
     compileOnly('org.springframework.security:spring-security-config:5.0.8.RELEASE')
     compileOnly('org.springframework.security:spring-security-web:5.0.8.RELEASE')
