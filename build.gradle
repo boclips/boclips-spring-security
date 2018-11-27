@@ -22,12 +22,29 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
+def junitVersion = "5.3.1"
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile('org.keycloak:keycloak-spring-security-adapter:4.5.0.Final')
 
     compileOnly('org.springframework.security:spring-security-config:5.0.8.RELEASE')
     compileOnly('org.springframework.security:spring-security-web:5.0.8.RELEASE')
+
+    testCompile('org.springframework.security:spring-security-core:5.0.8.RELEASE')
+    testCompile('org.springframework.security:spring-security-config:5.0.8.RELEASE')
+    testCompile('org.springframework.security:spring-security-web:5.0.8.RELEASE')
+    testCompile("org.springframework.boot:spring-boot-starter-test:2.0.6.RELEASE") {
+        exclude module: ['junit', 'mockito-core']
+    }
+    testCompile("com.nhaarman:mockito-kotlin:1.5.0")
+    testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testCompile("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testCompile("org.junit.jupiter:junit-jupiter-params:$junitVersion")
 }
 
 compileKotlin {
