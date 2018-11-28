@@ -53,9 +53,6 @@ internal class UserExtractorTest {
 
         setSecurityContext(SecurityContextImpl(null))
         assertThat(UserExtractor.getCurrentUser()).isNull()
-
-        SecurityContextHolder.setContext(null)
-        assertThat(UserExtractor.getCurrentUser()).isNull()
     }
 
     fun setSecurityContext(authenticatedUser: Any?) {
