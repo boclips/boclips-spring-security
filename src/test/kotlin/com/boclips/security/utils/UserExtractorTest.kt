@@ -46,7 +46,19 @@ internal class UserExtractorTest {
         assertThat(UserExtractor.getCurrentUser()).isEqualTo(User.fromEmail(boclipsUsername, boclipsUserId))
     }
 
-    fun setSecurityContext(authenticatedUser: Any) {
+    @Test
+    fun `when there is no user in current context`() {
+        setSecurityContext(null)
+        assertThat(UserExtractor.getCurrentUser()).isNull()
+
+        setSecurityContext(SecurityContextImpl(null))
+        assertThat(UserExtractor.getCurrentUser()).isNull()
+
+        SecurityContextHolder.setContext(null)
+        assertThat(UserExtractor.getCurrentUser()).isNull()
+    }
+
+    fun setSecurityContext(authenticatedUser: Any?) {
         SecurityContextHolder.setContext(SecurityContextImpl(TestingAuthenticationToken(authenticatedUser, null)))
     }
 }

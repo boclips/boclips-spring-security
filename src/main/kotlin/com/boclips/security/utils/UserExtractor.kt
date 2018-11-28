@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.security.Principal
 
 object UserExtractor {
-    fun getCurrentUser(): User {
+    fun getCurrentUser(): User? {
         val user = SecurityContextHolder.getContext()?.authentication?.principal
 
         return when (user) {
@@ -30,8 +30,7 @@ object UserExtractor {
                         email = user,
                         id = user
                 )
-            else ->
-                User.anonymous()
+            else -> null
         }
     }
 }
