@@ -15,20 +15,10 @@ object UserExtractor {
                         email = user.keycloakSecurityContext.token.preferredUsername,
                         id = user.name
                 )
-            is Principal ->
-                User.fromEmail(
-                        email = user.name,
-                        id = user.name
-                )
             is UserDetails ->
                 User.fromEmail(
                         email = user.username,
                         id = user.username
-                )
-            is String ->
-                User.fromEmail(
-                        email = user,
-                        id = user
                 )
             else -> null
         }
