@@ -2,10 +2,10 @@ package com.boclips.security.utils
 
 data class User(
         val boclipsEmployee: Boolean,
-        val id: String
+        val id: String,
+        val roles: Set<String>
 ) {
-    companion object {
-        fun fromEmail(email: String, id: String) = User(boclipsEmployee = email.endsWith("@boclips.com"), id = id)
-        fun anonymous() = User(boclipsEmployee = false, id = "ANONYMOUS")
+    fun hasRole(role: String): Boolean {
+        return roles.contains(role)
     }
 }
