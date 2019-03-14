@@ -1,5 +1,6 @@
 package com.boclips.security.utils
 
+import com.sun.security.auth.UserPrincipal
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.keycloak.KeycloakPrincipal
@@ -15,6 +16,22 @@ internal class UserExtractorTest {
     @Test
     fun `retrieves and identifies Boclips employees, using email as ID`() {
         setSecurityContext(org.springframework.security.core.userdetails.User("test@boclips.com", "password", emptyList()))
+
+        assertThat(UserExtractor.getCurrentUser()).isEqualTo(User(boclipsEmployee = true, id = "test@boclips.com", roles = emptySet()))
+    }
+
+    @Test
+    fun `when principal extracts mail from name`() {
+        val boclipsUsername = "test@boclips.com"
+        setSecurityContext(UserPrincipal(boclipsUsername))
+
+        assertThat(UserExtractor.getCurrentUser()).isEqualTo(User(boclipsEmployee = true, id = "test@boclips.com", roles = emptySet()))
+    }
+
+    @Test
+    fun `when string extracts mail from value`() {
+        val boclipsUsername = "test@boclips.com"
+        setSecurityContext(boclipsUsername)
 
         assertThat(UserExtractor.getCurrentUser()).isEqualTo(User(boclipsEmployee = true, id = "test@boclips.com", roles = emptySet()))
     }
