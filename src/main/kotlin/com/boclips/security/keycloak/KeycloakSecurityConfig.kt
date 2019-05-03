@@ -18,12 +18,17 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @Configuration
 //Keycloak bug: https://issues.jboss.org/browse/KEYCLOAK-8725
 @ComponentScan(
-        basePackageClasses = [KeycloakSecurityComponents::class],
-        excludeFilters = [
-            ComponentScan.Filter(type = FilterType.REGEX, pattern = ["org.keycloak.adapters.springsecurity.management.HttpSessionManager"])
-        ])
+    basePackageClasses = [KeycloakSecurityComponents::class],
+    excludeFilters = [
+        ComponentScan.Filter(
+            type = FilterType.REGEX,
+            pattern = ["org.keycloak.adapters.springsecurity.management.HttpSessionManager"]
+        )
+    ]
+)
 @EnableWebSecurity
-class KeycloakSecurityConfig(val httpSecurityConfigurer: HttpSecurityConfigurer) : KeycloakWebSecurityConfigurerAdapter() {
+class KeycloakSecurityConfig(val httpSecurityConfigurer: HttpSecurityConfigurer) :
+    KeycloakWebSecurityConfigurerAdapter() {
     /**
      * Registers the KeycloakAuthenticationProvider with the authentication manager.
      */

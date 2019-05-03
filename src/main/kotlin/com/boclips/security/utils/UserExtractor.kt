@@ -12,33 +12,32 @@ object UserExtractor {
         return when (user) {
             is KeycloakPrincipal<*> -> {
                 val email = user.keycloakSecurityContext.token.preferredUsername
-                val roles = user.keycloakSecurityContext.token.realmAccess?.let { it.roles } ?: emptySet<String>()
+                val authorities = user.keycloakSecurityContext.token.realmAccess?.let { it.roles } ?: emptySet<String>()
 
-                User(boclipsEmployee = isBoclipsEmployee(email), id = user.name, roles = roles)
+                User(boclipsEmployee = isBoclipsEmployee(email), id = user.name, authorities = authorities)
             }
-
             is Principal ->
                 User(
-                        boclipsEmployee = isBoclipsEmployee(user.name),
-                        id = user.name,
-                        roles = emptySet()
+                    boclipsEmployee = isBoclipsEmployee(user.name),
+                    id = user.name,
+                    authorities = emptySet()
                 )
             is UserDetails ->
                 User(
-                        boclipsEmployee = isBoclipsEmployee(user.username),
-                        id = user.username,
-                        roles = user.authorities.map { it.authority }.toSet()
+                    boclipsEmployee = isBoclipsEmployee(user.username),
+                    id = user.username,
+                    authorities = user.authorities.map { it.authority }.toSet()
                 )
             is String ->
                 User(
-                        boclipsEmployee = isBoclipsEmployee(user),
-                        id = user,
-                        roles = emptySet()
+                    boclipsEmployee = isBoclipsEmployee(user),
+                    id = user,
+                    authorities = emptySet()
                 )
             else -> null
         }
     }
 
     private fun isBoclipsEmployee(email: String) =
-            email.endsWith("@boclips.com")
+        email.endsWith("@boclips.com")
 }
