@@ -12,7 +12,7 @@ object UserExtractor {
         return when (user) {
             is KeycloakPrincipal<*> -> {
                 val email = user.keycloakSecurityContext.token.preferredUsername
-                val authorities = user.keycloakSecurityContext.token.realmAccess?.let { it.roles } ?: emptySet<String>()
+                val authorities = user.keycloakSecurityContext.token.resourceAccess.orEmpty().flatMap { it.value.roles }.toSet()
 
                 User(boclipsEmployee = isBoclipsEmployee(email), id = user.name, authorities = authorities)
             }

@@ -92,10 +92,12 @@ internal class UserExtractorTest {
             )
         )
 
-        assertThat(UserExtractor.getCurrentUser().hasRole("VEGGIESPAM")).isTrue()
-        assertThat(UserExtractor.getCurrentUser().hasRole("BEANS")).isTrue()
-        assertThat(UserExtractor.getCurrentUser().hasAuthority("ROLE_VEGGIESPAM")).isTrue()
-        assertThat(UserExtractor.getCurrentUser().hasAuthority("ROLE_BEANS")).isTrue()
+        val currentUser = UserExtractor.getCurrentUser()
+
+        assertThat(currentUser.hasRole("VEGGIESPAM")).isTrue()
+        assertThat(currentUser.hasRole("BEANS")).isTrue()
+        assertThat(currentUser.hasAuthority("ROLE_VEGGIESPAM")).isTrue()
+        assertThat(currentUser.hasAuthority("ROLE_BEANS")).isTrue()
     }
 
     @Test
@@ -140,10 +142,34 @@ internal class UserExtractorTest {
             )
         )
 
-        assertThat(UserExtractor.getCurrentUser().hasRole("GARBAGE")).isTrue()
-        assertThat(UserExtractor.getCurrentUser().hasRole("RUBBISH")).isFalse()
-        assertThat(UserExtractor.getCurrentUser().hasAuthority("ROLE_GARBAGE")).isTrue()
-        assertThat(UserExtractor.getCurrentUser().hasAuthority("ROLE_RUBBISH")).isFalse()
+        val currentUser = UserExtractor.getCurrentUser()
+
+        assertThat(currentUser.hasRole("GARBAGE")).isFalse()
+        assertThat(currentUser.hasAuthority("ROLE_GARBAGE")).isFalse()
+    }
+
+    @Test
+    fun `retrieves resource_access roles from Keycloak`() {
+        setSecurityContext(
+            KeycloakPrincipal(
+                "my-user-id",
+                KeycloakSecurityContext(
+                    null,
+                    AccessToken().apply {
+                        preferredUsername = "test@noclips.com"
+                        realmAccess = AccessToken.Access().addRole("GARBAGE")
+                        resourceAccess = mapOf(Pair("my-service", AccessToken.Access().addRole("ROLE_MY_SERVICE_GARBAGE")))
+                    },
+                    null,
+                    null
+                )
+            )
+        )
+
+        val currentUser = UserExtractor.getCurrentUser()
+
+        assertThat(currentUser.hasRole("MY_SERVICE_GARBAGE")).isTrue()
+        assertThat(currentUser.hasAuthority("ROLE_MY_SERVICE_GARBAGE")).isTrue()
     }
 
     @Test
