@@ -67,14 +67,22 @@ compileTestKotlin {
     }
 }
 
-dependencyCheck {
-    failBuildOnCVSS = 7 // Fail on high severity or greater
+allprojects {
+    apply plugin: 'org.owasp.dependencycheck'
 
-    data {
-        directory='./dependency-check-cache'
-    }
+    dependencyCheck {
+        failBuildOnCVSS = 7 // Fail on high severity or greater
 
-    analyzers {
-        assemblyEnabled = false
+        data {
+            directory = './dependency-check-cache'
+        }
+
+        analyzers {
+            assemblyEnabled = false
+        }
+
+        suppressionFile = './dependency-check-suppressions.xml'
+
+        outputDirectory = "security-report"
     }
 }

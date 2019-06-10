@@ -3,5 +3,6 @@
 *.iml
 build/
 out/
+security-report/
 
 dependency-check-cache/
