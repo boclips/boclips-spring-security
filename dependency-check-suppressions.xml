@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.2.xsd">
+    <suppress>
+        <notes><![CDATA[
+          File name: spring-security-*.jar in combination with Spring Framework 5.0.5.RELEASE
+
+          Affects Spring Framework 5.0.5.RELEASE only.
+          ]]></notes>
+        <gav regex="true">^org\.springframework\.security:spring-security-.*:.*$</gav>
+        <cve>CVE-2018-1258</cve>
+    </suppress>
+    <suppress>
+    <notes><![CDATA[
+          File name: spring-tuple-1.0.0.RELEASE.jar
+
+          Affects Spring Framework 5.0.5 and below.
+          ]]></notes>
+    <gav regex="true">^org\.springframework:spring-tuple:.*$</gav>
+    <cve>CVE-2018-1270</cve>
+    </suppress>
+    <suppress>
+    <notes><![CDATA[
+          File name: spring-tuple-1.0.0.RELEASE.jar
+
+          Affects Spring Framework 5.0.5 and below.
+          ]]></notes>
+    <gav regex="true">^org\.springframework:spring-tuple:.*$</gav>
+    <cve>CVE-2018-1272</cve>
+    </suppress>
+</suppressions>
