@@ -7,5 +7,4 @@ cwd="$(cd "$(dirname "$0")" && pwd)"
 fly --target ci \
     set-pipeline \
     --pipeline boclips-spring-security \
-    --config "$cwd/pipeline.yml" \
-    --var boclips-spring-security-repo-key="$(lpass show concourse-boclips-spring-security-repo-key --notes)"
+    --config "$cwd/pipeline.yml"

@@ -34,7 +34,7 @@ resources:
   type: git
   source:
     branch: master
-    private_key: ((boclips-spring-security-repo-key))
+    private_key: ((boclips-spring-security.repo-key))
     uri: git@github.com:knowledgemotion/boclips-spring-security.git
 
 - name: once-per-weekday
