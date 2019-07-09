@@ -126,29 +126,6 @@ internal class UserExtractorTest {
     }
 
     @Test
-    fun `retrieves user roles from Keycloak`() {
-        setSecurityContext(
-            KeycloakPrincipal(
-                "my-user-id",
-                KeycloakSecurityContext(
-                    null,
-                    AccessToken().apply {
-                        preferredUsername = "test@noclips.com"
-                        realmAccess = AccessToken.Access().addRole("ROLE_GARBAGE")
-                    },
-                    null,
-                    null
-                )
-            )
-        )
-
-        val currentUser = UserExtractor.getCurrentUser()
-
-        assertThat(currentUser.hasRole("GARBAGE")).isFalse()
-        assertThat(currentUser.hasAuthority("ROLE_GARBAGE")).isFalse()
-    }
-
-    @Test
     fun `retrieves resource_access roles from Keycloak`() {
         setSecurityContext(
             KeycloakPrincipal(
@@ -170,6 +147,30 @@ internal class UserExtractorTest {
 
         assertThat(currentUser.hasRole("MY_SERVICE_GARBAGE")).isTrue()
         assertThat(currentUser.hasAuthority("ROLE_MY_SERVICE_GARBAGE")).isTrue()
+    }
+
+    @Test
+    fun `retrieves realm_access roles from Keycloak`() {
+        setSecurityContext(
+            KeycloakPrincipal(
+                "my-user-id",
+                KeycloakSecurityContext(
+                    null,
+                    AccessToken().apply {
+                        preferredUsername = "test@noclips.com"
+                        realmAccess = AccessToken.Access().addRole("ROLE_API")
+                        resourceAccess = mapOf(Pair("my-service", AccessToken.Access().addRole("ROLE_MY_SERVICE_GARBAGE")))
+                    },
+                    null,
+                    null
+                )
+            )
+        )
+
+        val currentUser = UserExtractor.getCurrentUser()
+
+        assertThat(currentUser.hasRole("API")).isTrue()
+        assertThat(currentUser.hasAuthority("ROLE_API")).isTrue()
     }
 
     @Test

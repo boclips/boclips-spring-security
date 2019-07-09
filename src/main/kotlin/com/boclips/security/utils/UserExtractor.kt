@@ -12,7 +12,7 @@ object UserExtractor {
         return when (user) {
             is KeycloakPrincipal<*> -> {
                 val email = user.keycloakSecurityContext.token.preferredUsername
-                val authorities = user.keycloakSecurityContext.token.resourceAccess.orEmpty().flatMap { it.value.roles }.toSet()
+                val authorities = getFlattenenedClientRoles(user) + getRealmRoles(user)
 
                 User(boclipsEmployee = isBoclipsEmployee(email), id = user.name, authorities = authorities)
             }
@@ -37,6 +37,12 @@ object UserExtractor {
             else -> null
         }
     }
+
+    private fun getFlattenenedClientRoles(user: KeycloakPrincipal<*>) =
+        user.keycloakSecurityContext.token.resourceAccess.orEmpty().flatMap { it.value.roles }.toSet()
+
+    private fun getRealmRoles(user: KeycloakPrincipal<*>) =
+        user.keycloakSecurityContext.token.realmAccess?.roles.orEmpty()
 
     private fun isBoclipsEmployee(email: String) =
         email.endsWith("@boclips.com")
