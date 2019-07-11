@@ -3,5 +3,5 @@
 set -e
 
 git pull -r
-./gradlew build
+./gradlew build dependencyCheckAnalyze
 git push
