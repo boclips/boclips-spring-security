@@ -36,7 +36,7 @@ def junitVersion = "5.3.1"
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile('org.keycloak:keycloak-spring-security-adapter:6.0.1')
-    compile("com.fasterxml.jackson.core:jackson-databind:2.9.9")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.9.9.3")
     compile("org.bouncycastle:bcprov-jdk15on:1.60")
 
     compileOnly('org.springframework.security:spring-security-config:5.1.5.RELEASE')
