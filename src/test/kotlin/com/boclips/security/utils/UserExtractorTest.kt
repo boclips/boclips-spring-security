@@ -3,7 +3,6 @@ package com.boclips.security.utils
 import com.nhaarman.mockito_kotlin.*
 import com.sun.security.auth.UserPrincipal
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.keycloak.KeycloakPrincipal
@@ -238,7 +237,8 @@ internal class UserExtractorTest {
         val result = UserExtractor
             .getIfAuthenticated(mockLambda)
 
-        verify(mockLambda, never()).invoke(any())
+        verify(mockLambda, never())
+            .invoke(any())
         assertThat(result)
             .isNull()
     }
@@ -344,7 +344,7 @@ internal class UserExtractorTest {
 
 
         val result = UserExtractor
-            .getIfHasAnyRole(arrayOf("ONE", "FOUR"), mockLambda)
+            .getIfHasAnyRole("ONE", "FOUR") { mockLambda(it) }
 
         verify(mockLambda, times(1))
             .invoke(boclipsId)
@@ -363,7 +363,7 @@ internal class UserExtractorTest {
 
 
         val result = UserExtractor
-            .getIfHasAnyRole(arrayOf("THREE", "FOUR"), mockLambda)
+            .getIfHasAnyRole("THREE", "FOUR") { mockLambda(it) }
 
         verify(mockLambda, never())
             .invoke(any())

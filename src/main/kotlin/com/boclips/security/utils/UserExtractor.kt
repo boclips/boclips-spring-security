@@ -49,7 +49,7 @@ object UserExtractor {
         if (currentUserHasRole(role)) getIfAuthenticated (supplier) else null
 
 
-    fun <T : Any>getIfHasAnyRole(roles: Array<String>, supplier: (userId: String) -> T): T? =
+    fun <T : Any>getIfHasAnyRole(vararg roles: String, supplier: (userId: String) -> T): T? =
         roles.mapNotNull { getIfHasRole(it, supplier) }.firstOrNull()
 
     private fun getFlattenenedClientRoles(user: KeycloakPrincipal<*>) =
