@@ -42,6 +42,7 @@ dependencies {
     compileOnly('org.springframework.security:spring-security-config:5.1.5.RELEASE')
     compileOnly('org.springframework.security:spring-security-web:5.1.5.RELEASE')
 
+    testCompile('org.apache.tomcat.embed:tomcat-embed-core:9.0.21')
     testCompile('org.springframework.security:spring-security-core:5.1.5.RELEASE')
     testCompile('org.springframework.security:spring-security-config:5.1.5.RELEASE')
     testCompile('org.springframework.security:spring-security-web:5.1.5.RELEASE')

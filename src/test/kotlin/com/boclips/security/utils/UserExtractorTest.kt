@@ -13,11 +13,12 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.context.SecurityContextImpl
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter
 
-internal class UserExtractorTest {
+class UserExtractorTest {
 
     @BeforeEach
-    internal fun setUp() {
+    fun setUp() {
         setSecurityContext(null)
     }
 
@@ -249,7 +250,6 @@ internal class UserExtractorTest {
             onGeneric { invoke(any()) } doReturn true
         }
 
-        // Under what circumstance is this true?
         setKeycloakSecurityContext(id = "anonymousUser")
 
         val result = UserExtractor
@@ -316,24 +316,6 @@ internal class UserExtractorTest {
     }
 
     @Test
-    fun `it does not call the supplier if the user does have the role but is anonymousUser`() {
-        val mockLambda = mock<(String) -> Boolean> {
-            onGeneric { invoke(any()) } doReturn true
-        }
-
-        // Under what circumstance is this true?
-        setKeycloakSecurityContext(id = "anonymousUser", roles = arrayOf("ROLE_ONE", "ROLE_TWO"))
-
-        val result = UserExtractor
-            .getIfHasRole("ONE", mockLambda)
-
-        verify(mockLambda, never())
-            .invoke(any())
-        assertThat(result)
-            .isNull()
-    }
-
-    @Test
     fun `it calls the supplier if the user has at least one matching role`() {
         val mockLambda = mock<(String) -> Boolean> {
             onGeneric { invoke(any()) } doReturn true
@@ -370,6 +352,33 @@ internal class UserExtractorTest {
         assertThat(result)
             .isNull()
     }
+
+    @Test
+    fun `an anonymous user is not returned`() {
+        setKeycloakSecurityContext(id = springAnonymousUser)
+
+        val result = UserExtractor
+            .getCurrentUserIfNotAnonymous()
+
+        assertThat(result)
+            .isNull()
+    }
+
+    @Test
+    fun `a non-anonymous user is returned`() {
+        setKeycloakSecurityContext(id = "authenticated-user")
+
+        val result = UserExtractor
+            .getCurrentUserIfNotAnonymous()
+
+        assertThat(result)
+            .isNotNull()
+        assertThat(result!!.id)
+            .isEqualTo("authenticated-user")
+    }
+
+    private val springAnonymousUser = AnonymousAuthenticationFilter("key")
+        .principal as String
 
     private fun setSecurityContext(authenticatedUser: Any?) {
         SecurityContextHolder
