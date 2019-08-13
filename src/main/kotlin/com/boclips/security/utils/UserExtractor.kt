@@ -38,6 +38,20 @@ object UserExtractor {
         }
     }
 
+    fun currentUserHasRole(role: String) = getCurrentUser().hasRole(role)
+
+    fun currentUserHasAnyRole(vararg roles: String) = roles.any { role -> getCurrentUser().hasRole(role) }
+
+    fun <T>getIfAuthenticated(supplier: (userId: String) -> T): T? =
+        getCurrentUser().takeIf { it?.id != "anonymousUser" }?.let { supplier(it.id) }
+
+    fun <T>getIfHasRole(role: String, supplier: (userId: String) -> T): T? =
+        if (currentUserHasRole(role)) getIfAuthenticated (supplier) else null
+
+
+    fun <T : Any>getIfHasAnyRole(roles: Array<String>, supplier: (userId: String) -> T): T? =
+        roles.mapNotNull { getIfHasRole(it, supplier) }.firstOrNull()
+
     private fun getFlattenenedClientRoles(user: KeycloakPrincipal<*>) =
         user.keycloakSecurityContext.token.resourceAccess.orEmpty().flatMap { it.value.roles }.toSet()
 
