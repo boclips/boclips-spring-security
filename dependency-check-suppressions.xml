@@ -4,27 +4,16 @@
         <notes><![CDATA[
           File name: spring-security-*.jar in combination with Spring Framework 5.0.5.RELEASE
 
-          Affects Spring Framework 5.0.5.RELEASE only.
-          ]]></notes>
+          This is a false positive, the issue affects Spring Framework 5.0.5.RELEASE only.
+        ]]></notes>
         <gav regex="true">^org\.springframework\.security:spring-security-.*:.*$</gav>
         <cve>CVE-2018-1258</cve>
     </suppress>
-    <suppress>
-    <notes><![CDATA[
-          File name: spring-tuple-1.0.0.RELEASE.jar
-
-          Affects Spring Framework 5.0.5 and below.
-          ]]></notes>
-    <gav regex="true">^org\.springframework:spring-tuple:.*$</gav>
-    <cve>CVE-2018-1270</cve>
-    </suppress>
-    <suppress>
-    <notes><![CDATA[
-          File name: spring-tuple-1.0.0.RELEASE.jar
-
-          Affects Spring Framework 5.0.5 and below.
-          ]]></notes>
-    <gav regex="true">^org\.springframework:spring-tuple:.*$</gav>
-    <cve>CVE-2018-1272</cve>
+    <suppress until="2020-02-01Z">
+        <notes><![CDATA[
+              File name: keycloak-core-7.0.1.jar
+        ]]></notes>
+        <gav regex="true">^org\.keycloak:(keycloak-spring-security-adapter|keycloak-core):7.0.1$</gav>
+        <cve>CVE-2019-14832</cve>
     </suppress>
 </suppressions>
