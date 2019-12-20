@@ -32,6 +32,7 @@ test {
 }
 
 def junitVersion = "5.3.1"
+def springVersion = '5.2.1.RELEASE'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -39,14 +40,14 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind:2.10.0")
     compile("org.bouncycastle:bcprov-jdk15on:1.60")
 
-    compileOnly('org.springframework.security:spring-security-config:5.2.1.RELEASE')
-    compileOnly('org.springframework.security:spring-security-web:5.2.1.RELEASE')
+    compileOnly("org.springframework.security:spring-security-config:${springVersion}")
+    compileOnly("org.springframework.security:spring-security-web:${springVersion}")
 
     testCompile('org.apache.tomcat.embed:tomcat-embed-core:9.0.21')
-    testCompile('org.springframework.security:spring-security-core:5.2.1.RELEASE')
-    testCompile('org.springframework.security:spring-security-config:5.2.1.RELEASE')
-    testCompile('org.springframework.security:spring-security-web:5.2.1.RELEASE')
-    testCompile("org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE") {
+    testCompile("org.springframework.security:spring-security-core:${springVersion}")
+    testCompile("org.springframework.security:spring-security-config:${springVersion}")
+    testCompile("org.springframework.security:spring-security-web:${springVersion}")
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE') {
         exclude module: ['junit', 'mockito-core']
     }
     testCompile("com.nhaarman:mockito-kotlin:1.5.0")
