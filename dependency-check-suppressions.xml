@@ -13,7 +13,7 @@
         <notes><![CDATA[
               File name: keycloak-core-7.0.1.jar
         ]]></notes>
-        <gav regex="true">^org\.keycloak:(keycloak-spring-security-adapter|keycloak-core):7.0.1$</gav>
+        <gav regex="true">^org\.keycloak:keycloak-(spring-security-adapter|core|common|adapter-spi|adapter-core):7.0.1$</gav>
         <cve>CVE-2019-14832</cve>
         <cve>CVE-2019-14910</cve>
         <cve>CVE-2019-14909</cve>
