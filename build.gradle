@@ -38,6 +38,7 @@ dependencies {
     compile('org.keycloak:keycloak-spring-security-adapter:7.0.1')
     compile("com.fasterxml.jackson.core:jackson-databind:2.10.0")
     compile("org.bouncycastle:bcprov-jdk15on:1.60")
+    compileOnly("org.apache.tomcat:tomcat-servlet-api:9.0.30")
 
     compileOnly("org.springframework.security:spring-security-config:${springVersion}")
     compileOnly("org.springframework.security:spring-security-web:${springVersion}")
