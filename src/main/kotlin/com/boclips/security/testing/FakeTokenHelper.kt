@@ -2,14 +2,16 @@ package com.boclips.security.testing
 
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.Authentication
-import java.lang.Exception
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
 
 class FakeTokenHelper {
     fun extractFromJwtToken(token: String): Authentication? {
         return try {
             val (email, rolesStr) = token.split('|')
             val roles = rolesStr.split(",").filter { it.isNotEmpty() }.toTypedArray()
-            TestingAuthenticationToken(email, null, *roles)
+            val user = User(email, "password", roles.map { SimpleGrantedAuthority(it) })
+            TestingAuthenticationToken(user, null, *roles)
                 .apply {
                     isAuthenticated = true
                 }
@@ -23,6 +25,6 @@ class FakeTokenHelper {
     }
 
     private fun addRolePrefixIfMissing(role: String): String {
-        return if(role.startsWith("ROLE_")) role else "ROLE_$role"
+        return if (role.startsWith("ROLE_")) role else "ROLE_$role"
     }
 }

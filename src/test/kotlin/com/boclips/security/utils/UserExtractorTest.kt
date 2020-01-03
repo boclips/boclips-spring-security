@@ -28,7 +28,7 @@ class UserExtractorTest {
             org.springframework.security.core.userdetails.User(
                 "test@boclips.com",
                 "password",
-                emptyList()
+                listOf(SimpleGrantedAuthority("SOME"), SimpleGrantedAuthority("ROLE"))
             )
         )
 
@@ -37,7 +37,7 @@ class UserExtractorTest {
                 User(
                     boclipsEmployee = true,
                     id = "test@boclips.com",
-                    authorities = emptySet()
+                    authorities = setOf("SOME", "ROLE")
                 )
             )
     }

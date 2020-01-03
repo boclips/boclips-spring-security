@@ -2,6 +2,8 @@ package com.boclips.security.testing
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 
 class FakeTokenHelperTest {
     @Test
@@ -11,8 +13,11 @@ class FakeTokenHelperTest {
         val authentication = jwtHelper
             .extractFromJwtToken(jwtHelper.createToken("some-user", "ROLE_TEST", "ROLE_BEST"))
 
-        assertThat(authentication!!.principal).isEqualTo("some-user")
-        assertThat(authentication.authorities.map { it.authority }).containsExactly("ROLE_TEST", "ROLE_BEST")
+        assertThat((authentication!!.principal as UserDetails).username).isEqualTo("some-user")
+        assertThat((authentication.principal as UserDetails).authorities.map { it.toString() }).containsExactlyInAnyOrder(
+            "ROLE_TEST",
+            "ROLE_BEST"
+        )
     }
 
     @Test
@@ -21,8 +26,8 @@ class FakeTokenHelperTest {
 
         val authentication = jwtHelper.extractFromJwtToken("user|")
 
-        assertThat(authentication?.principal).isEqualTo("user")
-        assertThat(authentication?.authorities).isEmpty()
+        assertThat((authentication!!.principal as UserDetails).username).isEqualTo("user")
+        assertThat((authentication.principal as UserDetails).authorities).isEmpty()
     }
 
     @Test
@@ -31,7 +36,8 @@ class FakeTokenHelperTest {
 
         val authentication = jwtHelper.extractFromJwtToken(jwtHelper.createToken("user", "LONDON"))
 
-        assertThat(authentication!!.authorities.map { it.authority }).containsExactly("ROLE_LONDON")
+        assertThat((authentication!!.principal as UserDetails).authorities)
+            .containsExactly(SimpleGrantedAuthority("ROLE_LONDON"))
     }
 
     @Test
