@@ -35,7 +35,7 @@ def springVersion = '5.2.1.RELEASE'
 
 dependencies {
     compile('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
-    compile('org.keycloak:keycloak-spring-security-adapter:7.0.1')
+    compile('org.keycloak:keycloak-spring-security-adapter:8.0.1')
     compile("com.fasterxml.jackson.core:jackson-databind:2.10.0")
     compile("org.bouncycastle:bcprov-jdk15on:1.60")
     compileOnly("org.apache.tomcat:tomcat-servlet-api:9.0.30")
