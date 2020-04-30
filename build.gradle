@@ -32,6 +32,7 @@ test {
 }
 
 def springVersion = '5.2.2.RELEASE'
+def springBootVersion = '2.2.6.RELEASE'
 
 dependencies {
     compile('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
@@ -40,15 +41,16 @@ dependencies {
     compile("org.bouncycastle:bcprov-jdk15on:1.60")
     compileOnly("org.apache.tomcat:tomcat-servlet-api:9.0.30")
 
-    compileOnly("org.springframework.security:spring-security-config:${springVersion}")
-    compileOnly("org.springframework.security:spring-security-web:${springVersion}")
+    compileOnly("org.springframework.boot:spring-boot:$springBootVersion")
+    compileOnly("org.springframework.security:spring-security-config:$springVersion")
+    compileOnly("org.springframework.security:spring-security-web:$springVersion")
 
     testCompile('org.apache.tomcat.embed:tomcat-embed-core:9.0.21')
-    testCompile("org.springframework.security:spring-security-core:${springVersion}")
-    testCompile("org.springframework.security:spring-security-config:${springVersion}")
-    testCompile("org.springframework.security:spring-security-web:${springVersion}")
+    testCompile("org.springframework.security:spring-security-core:$springVersion")
+    testCompile("org.springframework.security:spring-security-config:$springVersion")
+    testCompile("org.springframework.security:spring-security-web:$springVersion")
 
-    testCompile('org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE')
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 
     testCompile('com.nhaarman:mockito-kotlin:1.5.0')
 }

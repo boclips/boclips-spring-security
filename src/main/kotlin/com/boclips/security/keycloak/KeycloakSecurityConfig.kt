@@ -4,6 +4,7 @@ import com.boclips.security.HttpSecurityConfigurer
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
+import org.springframework.security.web.session.HttpSessionEventPublisher
 
 @Configuration
 //Keycloak bug: https://issues.jboss.org/browse/KEYCLOAK-8725
@@ -43,6 +45,13 @@ class KeycloakSecurityConfig(val httpSecurityConfigurer: HttpSecurityConfigurer)
     @Bean
     override fun sessionAuthenticationStrategy(): SessionAuthenticationStrategy {
         return RegisterSessionAuthenticationStrategy(SessionRegistryImpl())
+    }
+
+    @Bean
+    fun httpSessionEventPublisherRegistration(): ServletListenerRegistrationBean<HttpSessionEventPublisher> {
+        val registrationBean = ServletListenerRegistrationBean<HttpSessionEventPublisher>()
+        registrationBean.listener = HttpSessionEventPublisher()
+        return registrationBean
     }
 
     override fun configure(http: HttpSecurity) {
