@@ -245,12 +245,12 @@ class UserExtractorTest {
     }
 
     @Test
-    fun `it does call the supplier if an anonymousUser`() {
+    fun `it does not call the supplier if an anonymousUser`() {
         val mockLambda = mock<(String) -> Boolean> {
             onGeneric { invoke(any()) } doReturn true
         }
 
-        setKeycloakSecurityContext(id = "anonymousUser")
+        setSecurityContext("anonymousUser")
 
         val result = UserExtractor
             .getIfAuthenticated(mockLambda)
@@ -354,11 +354,11 @@ class UserExtractorTest {
     }
 
     @Test
-    fun `an anonymous user is not returned`() {
-        setKeycloakSecurityContext(id = springAnonymousUser)
+    fun `an anonymous KC principal user is not returned`() {
+        setSecurityContext(springAnonymousUser)
 
         val result = UserExtractor
-            .getCurrentUserIfNotAnonymous()
+            .getCurrentUser()
 
         assertThat(result)
             .isNull()
@@ -369,7 +369,7 @@ class UserExtractorTest {
         setKeycloakSecurityContext(id = "authenticated-user")
 
         val result = UserExtractor
-            .getCurrentUserIfNotAnonymous()
+            .getCurrentUser()
 
         assertThat(result)
             .isNotNull()

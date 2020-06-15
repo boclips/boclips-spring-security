@@ -20,7 +20,7 @@ object UserExtractor {
                     .keycloakSecurityContext
                     .token
                     .preferredUsername
-                val authorities = getFlattenenedClientRoles(user) + getRealmRoles(user)
+                val authorities = getFlattenedClientRoles(user) + getRealmRoles(user)
 
                 User(boclipsEmployee = isBoclipsEmployee(email), id = user.name, authorities = authorities)
             }
@@ -40,26 +40,27 @@ object UserExtractor {
                     }.toSet()
                 )
             is String ->
-                User(
-                    boclipsEmployee = isBoclipsEmployee(user),
-                    id = user,
-                    authorities = emptySet()
-                )
+                if(user == SPRING_ANONYMOUS_USER_ID)
+                    null
+                else
+                    User(
+                        boclipsEmployee = isBoclipsEmployee(user),
+                        id = user,
+                        authorities = emptySet()
+                    )
             else -> null
         }
     }
-
-    fun getCurrentUserIfNotAnonymous() = getCurrentUser().takeIf { it?.id != SPRING_ANONYMOUS_USER_ID }
 
     fun currentUserHasRole(role: String) = getCurrentUser().hasRole(role)
 
     fun currentUserHasAnyRole(vararg roles: String) = roles.any { role -> getCurrentUser().hasRole(role) }
 
     fun <T> getIfAuthenticated(supplier: (userId: String) -> T): T? =
-        getCurrentUserIfNotAnonymous()?.let { supplier(it.id) }
+        getCurrentUser()?.let { supplier(it.id) }
 
     fun <T> getIfHasRole(role: String, supplier: (userId: String) -> T): T? =
-        getCurrentUserIfNotAnonymous()
+        getCurrentUser()
             .takeIf { it.hasRole(role) }
             ?.id
             ?.let { supplier(it) }
@@ -67,7 +68,7 @@ object UserExtractor {
     fun <T : Any> getIfHasAnyRole(vararg roles: String, supplier: (userId: String) -> T): T? =
         roles.mapNotNull { getIfHasRole(it, supplier) }.firstOrNull()
 
-    private fun getFlattenenedClientRoles(user: KeycloakPrincipal<*>) =
+    private fun getFlattenedClientRoles(user: KeycloakPrincipal<*>) =
         user.keycloakSecurityContext.token.resourceAccess
             .orEmpty()
             .flatMap { it.value.roles }
