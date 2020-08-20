@@ -9,32 +9,4 @@
         <gav regex="true">^org\.springframework\.security:spring-security-.*:.*$</gav>
         <cve>CVE-2018-1258</cve>
     </suppress>
-    <suppress until="2020-02-01Z">
-        <notes><![CDATA[
-              File name: keycloak-core-7.0.1.jar
-        ]]></notes>
-        <gav regex="true">^org\.keycloak:keycloak-(spring-security-adapter|core|common|adapter-spi|adapter-core):7.0.1$</gav>
-        <cve>CVE-2019-14832</cve>
-        <cve>CVE-2019-14910</cve>
-        <cve>CVE-2019-14909</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-            We haven't been paying attention to security issues for a while and these popped up.
-            I am fixing a bug with our code logic and don't want to be upgrading Spring at the same time,
-            so suppressing these issues for now.
-        ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-.*:.*$</gav>
-        <cve>CVE-2020-5407</cve>
-        <cve>CVE-2020-5408</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-            We haven't been paying attention to security issues for a while and these popped up.
-            I am fixing a bug with our code logic and don't want to be upgrading the Keycloak adapter at the same time,
-            so suppressing these issues for now.
-        ]]></notes>
-        <gav regex="true">^org\.keycloak:keycloak-(spring-security-adapter|core|common|adapter-spi|adapter-core):9.0.3$</gav>
-        <cve>CVE-2020-1714</cve>
-    </suppress>
 </suppressions>
