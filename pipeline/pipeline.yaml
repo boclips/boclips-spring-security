@@ -13,7 +13,7 @@ jobs:
     params:
       bump: minor
   - task: build
-    file: source/pipeline/build.yml
+    file: source/pipeline/build.yaml
 
 - name: cut-release
   public: false
