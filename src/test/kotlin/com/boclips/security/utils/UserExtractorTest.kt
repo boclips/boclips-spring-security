@@ -136,6 +136,27 @@ class UserExtractorTest {
     }
 
     @Test
+    fun `uses Keycloak AT's 'boclips_user_id' and 'client_id' claims to build a unique API integration user ID`() {
+        setKeycloakSecurityContext(
+            id = "my-user-id",
+            userName = "test@noclips.com",
+            otherClaims = mapOf(
+                    "boclips_user_id" to "the-user-id-from-claim",
+                    "clientId" to "AN_INTEGRATION"
+            )
+        )
+
+        assertThat(UserExtractor.getCurrentUser())
+            .isEqualTo(
+                User(
+                    boclipsEmployee = false,
+                    id = "AN_INTEGRATION_the-user-id-from-claim",
+                    authorities = emptySet()
+                )
+            )
+    }
+
+    @Test
     fun `retrieves resource_access roles from Keycloak`() {
         setKeycloakSecurityContext(
             id = "my-user-id",
@@ -385,7 +406,13 @@ class UserExtractorTest {
             .setContext(SecurityContextImpl(TestingAuthenticationToken(authenticatedUser, null)))
     }
 
-    private fun setKeycloakSecurityContext(id: String, userName: String = "$id@noclips.com", roles: Array<String> = emptyArray(), serviceRoles: Map<String, String> = emptyMap()) {
+    private fun setKeycloakSecurityContext(
+            id: String,
+            userName: String = "$id@noclips.com",
+            roles: Array<String> = emptyArray(),
+            serviceRoles: Map<String, String> = emptyMap(),
+            otherClaims: Map<String, String> = emptyMap()
+    ) {
         setSecurityContext(
             KeycloakPrincipal(
                 id,
@@ -408,6 +435,7 @@ class UserExtractorTest {
                                     .Access()
                                     .addRole(it.value)
                             }
+                        this.otherClaims.putAll(otherClaims)
                     },
                     null,
                     null

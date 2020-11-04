@@ -16,13 +16,16 @@ object UserExtractor {
 
         return when (user) {
             is KeycloakPrincipal<*> -> {
-                val email = user
-                    .keycloakSecurityContext
-                    .token
-                    .preferredUsername
+                val accessToken = user.keycloakSecurityContext.token
+                val email = accessToken.preferredUsername
+                val uniqueUserId = ApiIntegrationUniqueUserIdFactory.create(accessToken)
                 val authorities = getFlattenedClientRoles(user) + getRealmRoles(user)
 
-                User(boclipsEmployee = isBoclipsEmployee(email), id = user.name, authorities = authorities)
+                User(
+                        boclipsEmployee = isBoclipsEmployee(email),
+                        id = uniqueUserId ?: user.name,
+                        authorities = authorities
+                )
             }
             is Principal ->
                 User(
