@@ -1,11 +1,13 @@
 package com.boclips.security.utils
 
 import org.keycloak.KeycloakPrincipal
+import org.keycloak.representations.AccessToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import java.security.Principal
 
 object UserExtractor {
+    private const val BOCLIPS_USER_ID_CLAIM = "boclips_user_id"
     private const val SPRING_ANONYMOUS_USER_ID = "anonymousUser"
 
     fun getCurrentUser(): User? {
@@ -18,12 +20,11 @@ object UserExtractor {
             is KeycloakPrincipal<*> -> {
                 val accessToken = user.keycloakSecurityContext.token
                 val email = accessToken.preferredUsername
-                val uniqueUserId = ApiIntegrationUniqueUserIdFactory.create(accessToken)
                 val authorities = getFlattenedClientRoles(user) + getRealmRoles(user)
 
                 User(
                         boclipsEmployee = isBoclipsEmployee(email),
-                        id = uniqueUserId ?: user.name,
+                        id = extractUserId(accessToken) ?: user.name,
                         authorities = authorities
                 )
             }
@@ -54,6 +55,8 @@ object UserExtractor {
             else -> null
         }
     }
+
+    private fun extractUserId(accessToken: AccessToken) = accessToken.otherClaims[BOCLIPS_USER_ID_CLAIM] as String?
 
     fun currentUserHasRole(role: String) = getCurrentUser().hasRole(role)
 

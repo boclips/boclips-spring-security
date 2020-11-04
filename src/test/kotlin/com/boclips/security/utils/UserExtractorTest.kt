@@ -136,13 +136,13 @@ class UserExtractorTest {
     }
 
     @Test
-    fun `uses Keycloak AT's 'boclips_user_id' and 'client_id' claims to build a unique API integration user ID`() {
+    fun `uses Keycloak 'boclips_user_id' claim as user ID`() {
         setKeycloakSecurityContext(
             id = "my-user-id",
             userName = "test@noclips.com",
             otherClaims = mapOf(
-                    "boclips_user_id" to "the-user-id-from-claim",
-                    "clientId" to "AN_INTEGRATION"
+                "boclips_user_id" to "AN_INTEGRATION-the-user-id-from-claim",
+                "clientId" to "AN_INTEGRATION"
             )
         )
 
@@ -150,7 +150,7 @@ class UserExtractorTest {
             .isEqualTo(
                 User(
                     boclipsEmployee = false,
-                    id = "AN_INTEGRATION_the-user-id-from-claim",
+                    id = "AN_INTEGRATION-the-user-id-from-claim",
                     authorities = emptySet()
                 )
             )
@@ -309,7 +309,6 @@ class UserExtractorTest {
         val boclipsId = "test-id"
         setKeycloakSecurityContext(id = boclipsId, roles = arrayOf("ROLE_ONE", "ROLE_TWO"))
 
-
         val result = UserExtractor
             .getIfHasRole("ONE", mockLambda)
 
@@ -345,7 +344,6 @@ class UserExtractorTest {
         val boclipsId = "test-id"
         setKeycloakSecurityContext(id = boclipsId, roles = arrayOf("ROLE_ONE", "ROLE_TWO"))
 
-
         val result = UserExtractor
             .getIfHasAnyRole("ONE", "FOUR") { mockLambda(it) }
 
@@ -363,7 +361,6 @@ class UserExtractorTest {
 
         val boclipsId = "test-id"
         setKeycloakSecurityContext(id = boclipsId, roles = arrayOf("ROLE_ONE", "ROLE_TWO"))
-
 
         val result = UserExtractor
             .getIfHasAnyRole("THREE", "FOUR") { mockLambda(it) }
@@ -407,11 +404,11 @@ class UserExtractorTest {
     }
 
     private fun setKeycloakSecurityContext(
-            id: String,
-            userName: String = "$id@noclips.com",
-            roles: Array<String> = emptyArray(),
-            serviceRoles: Map<String, String> = emptyMap(),
-            otherClaims: Map<String, String> = emptyMap()
+        id: String,
+        userName: String = "$id@noclips.com",
+        roles: Array<String> = emptyArray(),
+        serviceRoles: Map<String, String> = emptyMap(),
+        otherClaims: Map<String, String> = emptyMap()
     ) {
         setSecurityContext(
             KeycloakPrincipal(
