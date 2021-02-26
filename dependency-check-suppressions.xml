@@ -2,83 +2,37 @@
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
     <suppress>
         <notes><![CDATA[
-          File name: spring-security-*.jar in combination with Spring Framework 5.0.5.RELEASE
-
-          This is a false positive, the issue affects Spring Framework 5.0.5.RELEASE only.
-        ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-.*:.*$</gav>
-        <cve>CVE-2018-1258</cve>
-    </suppress>
-	<suppress until="2021-01-08">
-		<notes>
-            Matching 1.4.0 even though fixed in 1.4.0.
-		</notes>
-		<packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin\-.+$</packageUrl>
-		<cve>CVE-2020-15824</cve>
-	</suppress>
-
-    <suppress until="2021-01-08">
-        <notes><![CDATA[
-   file name: httpclient-4.5.12.jar
-
-   This is coming from keycloak-spring-security-adapter:11.0.3.  There is currently no higher version of this package.
-   ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpclient@.*$</packageUrl>
-        <cve>CVE-2020-13956</cve>
-    </suppress>
-
-    <suppress until="2021-01-08">
-        <notes><![CDATA[
-   file name: keycloak-adapter-core-11.0.3.jar
+   file name: keycloak-adapter-core-12.0.3.jar
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-adapter\-core@.*$</packageUrl>
-        <cve>CVE-2020-10776</cve>
-        <cve>CVE-2020-14366</cve>
-        <cve>CVE-2020-14389</cve>
-        <cve>CVE-2020-1728</cve>
+        <cpe>cpe:/a:keycloak:keycloak</cpe>
     </suppress>
-
-    <suppress until="2021-01-08">
+    <suppress>
         <notes><![CDATA[
-   file name: keycloak-adapter-spi-11.0.3.jar
+   file name: keycloak-adapter-spi-12.0.3.jar
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-adapter\-spi@.*$</packageUrl>
-        <cve>CVE-2020-10776</cve>
-        <cve>CVE-2020-14366</cve>
-        <cve>CVE-2020-14389</cve>
-        <cve>CVE-2020-1728</cve>
+        <cpe>cpe:/a:redhat:keycloak</cpe>
     </suppress>
-
-    <suppress until="2021-01-08">
+    <suppress>
         <notes><![CDATA[
-   file name: keycloak-common-11.0.3.jar
+   file name: keycloak-common-12.0.3.jar
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-common@.*$</packageUrl>
-        <cve>CVE-2020-10776</cve>
-        <cve>CVE-2020-14366</cve>
-        <cve>CVE-2020-14389</cve>
-        <cve>CVE-2020-1728</cve>
+        <cpe>cpe:/a:redhat:keycloak</cpe>
     </suppress>
-
-    <suppress until="2021-01-08">
+    <suppress>
         <notes><![CDATA[
-   file name: keycloak-core-11.0.3.jar
+   file name: keycloak-core-12.0.3.jar
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-core@.*$</packageUrl>
-        <cve>CVE-2020-10776</cve>
-        <cve>CVE-2020-14366</cve>
-        <cve>CVE-2020-14389</cve>
-        <cve>CVE-2020-1728</cve>
+        <cpe>cpe:/a:redhat:keycloak</cpe>
     </suppress>
-
-    <suppress until="2021-01-08">
+    <suppress>
         <notes><![CDATA[
-   file name: keycloak-spring-security-adapter-11.0.3.jar
+   file name: keycloak-spring-security-adapter-12.0.3.jar
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-spring\-security\-adapter@.*$</packageUrl>
-        <cve>CVE-2020-10776</cve>
-        <cve>CVE-2020-14366</cve>
-        <cve>CVE-2020-14389</cve>
-        <cve>CVE-2020-1728</cve>
+        <cpe>cpe:/a:redhat:keycloak</cpe>
     </suppress>
 </suppressions>
