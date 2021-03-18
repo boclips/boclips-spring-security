@@ -11,13 +11,9 @@ object ClientExtractor {
             ?.authentication
             ?.principal
 
-        return if (principal is KeycloakPrincipal<*>) {
-            when (principal.keycloakSecurityContext.token.issuedFor) {
-                "teachers" -> Client.Teachers
-                "hq" -> Client.Hq
-                "boclips-web-app" -> Client.BoclipsWebApp
-                else -> Client.UnknownClient
-            }
-        } else Client.UnknownClient
+        return when(principal) {
+            is KeycloakPrincipal<*> -> Client.getClientByName(principal.keycloakSecurityContext.token.issuedFor)
+            else -> Client.UnknownClient
+        }
     }
 }
