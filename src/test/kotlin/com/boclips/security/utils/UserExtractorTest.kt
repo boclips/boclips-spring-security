@@ -1,17 +1,19 @@
 package com.boclips.security.utils
 
-import com.nhaarman.mockito_kotlin.*
+import com.boclips.security.testsupport.SecurityContextHelper.setKeycloakSecurityContext
+import com.boclips.security.testsupport.SecurityContextHelper.setSecurityContext
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import com.sun.security.auth.UserPrincipal
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.keycloak.KeycloakPrincipal
-import org.keycloak.KeycloakSecurityContext
-import org.keycloak.representations.AccessToken
-import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter
 
@@ -397,47 +399,4 @@ class UserExtractorTest {
 
     private val springAnonymousUser = AnonymousAuthenticationFilter("key")
         .principal as String
-
-    private fun setSecurityContext(authenticatedUser: Any?) {
-        SecurityContextHolder
-            .setContext(SecurityContextImpl(TestingAuthenticationToken(authenticatedUser, null)))
-    }
-
-    private fun setKeycloakSecurityContext(
-        id: String,
-        userName: String = "$id@noclips.com",
-        roles: Array<String> = emptyArray(),
-        serviceRoles: Map<String, String> = emptyMap(),
-        otherClaims: Map<String, String> = emptyMap()
-    ) {
-        setSecurityContext(
-            KeycloakPrincipal(
-                id,
-                KeycloakSecurityContext(
-                    null,
-                    AccessToken().apply {
-                        preferredUsername = userName
-                        realmAccess = AccessToken
-                            .Access()
-                            .apply {
-                                roles
-                                    .forEach {
-                                        this
-                                            .addRole(it)
-                                    }
-                            }
-                        resourceAccess = serviceRoles
-                            .mapValues {
-                                AccessToken
-                                    .Access()
-                                    .addRole(it.value)
-                            }
-                        this.otherClaims.putAll(otherClaims)
-                    },
-                    null,
-                    null
-                )
-            )
-        )
-    }
 }
