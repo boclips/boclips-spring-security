@@ -1,5 +1,8 @@
 package com.boclips.security.testing
 
+import org.keycloak.KeycloakPrincipal
+import org.keycloak.KeycloakSecurityContext
+import org.keycloak.representations.AccessToken
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -22,4 +25,37 @@ fun setSecurityContext(username: String, vararg roles: String) {
                 TestingAuthenticationToken(User(username, "", roles.map { SimpleGrantedAuthority("ROLE_$it") }), null)
             )
         )
+}
+
+fun setSecurityContext(userId: String, clientId: String) {
+    SecurityContextHolder
+        .setContext(SecurityContextImpl(TestingAuthenticationToken(
+            KeycloakPrincipal(
+            userId,
+            KeycloakSecurityContext(
+                null,
+                AccessToken().apply {
+                    preferredUsername = "$id@noclips.com"
+                    realmAccess = AccessToken
+                        .Access()
+                        .apply {
+                            roles
+                                .forEach {
+                                    this
+                                        .addRole(it)
+                                }
+                        }
+                    resourceAccess = emptyMap<String, String>()
+                        .mapValues {
+                            AccessToken
+                                .Access()
+                                .addRole(it.value)
+                        }
+                    issuedFor = clientId
+                    this.otherClaims.putAll(otherClaims)
+                },
+                null,
+                null
+            )
+        ), null)))
 }
