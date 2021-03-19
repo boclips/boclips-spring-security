@@ -38,13 +38,6 @@ fun setSecurityContext(userId: String, clientId: String) {
                     preferredUsername = "$id@noclips.com"
                     realmAccess = AccessToken
                         .Access()
-                        .apply {
-                            roles
-                                .forEach {
-                                    this
-                                        .addRole(it)
-                                }
-                        }
                     resourceAccess = emptyMap<String, String>()
                         .mapValues {
                             AccessToken
