@@ -27,7 +27,7 @@ fun setSecurityContext(username: String, vararg roles: String) {
         )
 }
 
-fun setSecurityContext(userId: String, clientId: String) {
+fun setSecurityContextWithClientId(userId: String, clientId: String) {
     SecurityContextHolder
         .setContext(SecurityContextImpl(TestingAuthenticationToken(
             KeycloakPrincipal(
