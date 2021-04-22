@@ -29,7 +29,7 @@ test {
 }
 
 def springVersion = '5.4.5'
-def springBootVersion = '2.3.4.RELEASE'
+def springBootVersion = '2.4.5'
 
 dependencies {
     compile('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
