@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <suppress until="2021-06-01">
-        <notes><![CDATA[ kotlin-1.4.0]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin.*$</packageUrl>
-        <cve>CVE-2020-15824</cve>
-    </suppress>
-    <suppress until="2021-06-01"><notes><![CDATA[ spring-security-5.4.5]]></notes>
+    <suppress until="2021-08-01"><notes><![CDATA[ spring-security-5.4.5]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security.*$</packageUrl>
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
     </suppress>
-    <suppress until="2021-06-01"><notes><![CDATA[ keycloak-12.0.3]]></notes>
+    <suppress until="2021-08-01"><notes><![CDATA[ keycloak-12.0.3]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak.*$</packageUrl>
         <cpe>cpe:/a:redhat:keycloak</cpe>
+    </suppress>
+    <suppress until="2021-08-01"><notes><![CDATA[ file name: keycloak-core-12.0.3.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-core@.*$</packageUrl>
+        <cpe>cpe:/a:keycloak:keycloak</cpe>
+    </suppress>
+    <suppress until="2021-08-01"><notes><![CDATA[ file name: keycloak-core-12.0.3.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-core@.*$</packageUrl>
+        <cpe>cpe:/a:redhat:jboss_keycloak</cpe>
+    </suppress>
+    <suppress until="2021-08-01"><notes><![CDATA[ file name: keycloak-spring-security-adapter-12.0.3.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-spring\-security\-adapter@.*$</packageUrl>
+        <cpe>cpe:/a:keycloak:keycloak</cpe>
+    </suppress>
+    <suppress><notes><![CDATA[ file name: keycloak-core-12.0.3.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-core@.*$</packageUrl>
+        <vulnerabilityName>CVE-2021-20202</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-20222</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-20195</vulnerabilityName>
+    </suppress>
+    <suppress><notes><![CDATA[ file name: keycloak-spring-security-adapter-12.0.3.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak\-spring\-security\-adapter@.*$</packageUrl>
+        <vulnerabilityName>CVE-2021-20202</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-20222</vulnerabilityName>
+        <vulnerabilityName>CVE-2021-20195</vulnerabilityName>
+    </suppress>
+    <suppress until="2021-08-01"><notes><![CDATA[ file name: spring-core-5.3.6.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-core@.*$</packageUrl>
+        <cve>CVE-2021-22118</cve>
     </suppress>
 </suppressions>
